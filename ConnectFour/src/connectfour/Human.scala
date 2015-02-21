@@ -14,6 +14,7 @@ class Human(private var player: Player) extends Solver {
     } catch {
       case e: InterruptedException => e.printStackTrace()
     }
+    //make a new move that will get checked within move class
     Array(new Move(player, nextColumn))
   }
 

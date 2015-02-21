@@ -18,10 +18,8 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
 
   private var winner: Player = _
 
-  def this(p1: Solver,
-    p2: Solver,
-    b: Board,
-    p: Boolean) {
+  def this(p1: Solver, p2: Solver, b: Board, p: Boolean) 
+  {
     this(p1, p2)
     board = b
     activePlayer = (if (p) p1 else p2)
@@ -42,24 +40,40 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
       var moveIsSafe = false
       var nextMove: Move = null
       while (!moveIsSafe) {
+        //board - array of players
+        //bestMoves = 
         val bestMoves = activePlayer.getMoves(board)
-        if (bestMoves.length == 0) {
+        if (bestMoves.length == 0) 
+        {
           gui.setMsg("Game cannot continue until a Move is produced.")
           //continue
-        } else {
+        } 
+        else 
+        {
           nextMove = bestMoves(0)
         }
-        if (board.getTile(0, nextMove.column) == null) {
+        //if tile is empty
+        if (board.getTile(0, nextMove.column) == null)
+        {
           moveIsSafe = true
-        } else {
+        } else 
+        {
           gui.setMsg("Illegal Move: Cannot place disc in full column. Try again.")
         }
       }
-      //board.makeMove(nextMove)
+      
+      //move is now capable
+      //nextMove = player's possible moves
+      
+      board.makeMove(nextMove)
+      
+      
+      
       if (gui == null) {
         println(nextMove)
         println(board)
-      } else {
+      } else 
+      {
         gui.updateGUI(board, nextMove)
       }
       val temp = activePlayer
