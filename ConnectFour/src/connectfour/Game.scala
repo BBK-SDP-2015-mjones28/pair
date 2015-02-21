@@ -67,7 +67,9 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
       
       board.makeMove(nextMove)
       
+      // Insert getPossibleMoves tests here
       
+      println(board.getPossibleMoves(nextMove.player))
       
       if (gui == null) {
         println(nextMove)

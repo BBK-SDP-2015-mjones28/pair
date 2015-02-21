@@ -18,7 +18,6 @@ object Board {
 
 class Board {
 
-  println("welcome Mike and Michael")
   
   private val FOUR = 4
 
@@ -86,7 +85,7 @@ class Board {
     //move = player and column 
  
     var num = 0
-    for (l <- 5 to 0 by -1)
+    for (l <- (Board.NUM_ROWS - 1) to 0 by -1)
     {      
       if (getTile(l, move.column) == null)
       {
@@ -110,9 +109,17 @@ class Board {
      * of columns that are not full. Thus, if all columns are full, return an
      * array of length 0.
      */
-  def getPossibleMoves(p: Player): Array[Move] = ???
-
-  
+  def getPossibleMoves(p: Player): Array[Move] = {
+    val possibleMoves: Array[Move] = new Array(7)
+    //only need to find empty columns
+    for (col <- 0 to (Board.NUM_COLS - 1)) {
+      if (getTile(0, col) == null) { 
+        possibleMoves(col) = new Move(p,col);
+      }
+    }
+    possibleMoves
+  }
+   
   override def toString(): String = toString("")
 
   def toString(prefix: String): String = {
