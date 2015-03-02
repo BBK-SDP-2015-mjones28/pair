@@ -109,17 +109,30 @@ class Board {
      * of columns that are not full. Thus, if all columns are full, return an
      * array of length 0.
      */
-  def getPossibleMoves(p: Player): Array[Move] = {
-    val possibleMoves: Array[Move] = new Array(7)
+ def getPossibleMoves(p: Player): Array[Move] = {
+    val tempMoves: List[Move] = List()
+    val possibleMoves: Array[Move] = new Array[Move](Board.NUM_COLS)
     //only need to find empty columns
-    for (col <- 0 to (Board.NUM_COLS - 1)) {
-      if (getTile(0, col) == null) { 
-        possibleMoves(col) = new Move(p,col);
+    
+    var num: Int = 0
+    for (col <- 0 to (Board.NUM_COLS - 1))
+    {    
+      if (getTile(0, col) == null) 
+      {         
+        possibleMoves(num) = new Move(p, col)
+        num+=1
       }
+      else
+      {
+        println("***DEBUG*** Column: " + col + " is full")
+      }
+      
     }
+    //somehow make a new array that returns the correct amount of moves - not the full length 7 - possibly
     possibleMoves
   }
    
+ 
   override def toString(): String = toString("")
 
   def toString(prefix: String): String = {

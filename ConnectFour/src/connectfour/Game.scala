@@ -64,12 +64,22 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
       
       //move is now capable
       //nextMove = player's possible moves
+      println(board.getPossibleMoves(nextMove.player))
+      
+      val returnedMoves: Array[Move] = board.getPossibleMoves(nextMove.player)
+      println("***DEBUG*** returned all moves")
+      for(m <- 0 to returnedMoves.length - 1)
+      {
+        //issues with this as at present we return an array of 7 - whereas we need to 
+        //return an array of exact amount
+        println(returnedMoves(m).player + " " + returnedMoves(m).column)  
+      }
       
       board.makeMove(nextMove)
+
       
       // Insert getPossibleMoves tests here
-      
-      println(board.getPossibleMoves(nextMove.player))
+  
       
       if (gui == null) {
         println(nextMove)
