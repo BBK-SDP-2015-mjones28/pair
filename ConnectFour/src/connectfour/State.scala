@@ -36,6 +36,9 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
      * initialize all descendants.
      */
   def initializeChildren() {
+    
+    val arrayOfMoves = board.getPossibleMoves(player) //Array[Move]
+    
   }
 
    /**

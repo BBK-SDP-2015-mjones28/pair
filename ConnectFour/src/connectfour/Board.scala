@@ -111,25 +111,26 @@ class Board {
      */
  def getPossibleMoves(p: Player): Array[Move] = {
     val tempMoves: List[Move] = List()
-    val possibleMoves: Array[Move] = new Array[Move](Board.NUM_COLS)
-    //only need to find empty columns
-    
+    //val possibleMoves: Array[Move] = new Array[Move](Board.NUM_COLS)
+    val possibleMoves = scala.collection.mutable.ArrayBuffer.empty[Move]
+     
     var num: Int = 0
     for (col <- 0 to (Board.NUM_COLS - 1))
     {    
       if (getTile(0, col) == null) 
-      {         
-        possibleMoves(num) = new Move(p, col)
-        num+=1
+      {    
+        //appends Moves to the array
+        possibleMoves+= new Move(p,col)
       }
       else
       {
         println("***DEBUG*** Column: " + col + " is full")
-      }
-      
+      }      
     }
     //somehow make a new array that returns the correct amount of moves - not the full length 7 - possibly
-    possibleMoves
+   val possMoves: Array[Move] = possibleMoves.toArray
+    //println(possMoves)
+   possMoves
   }
    
  
