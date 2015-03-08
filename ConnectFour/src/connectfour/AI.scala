@@ -24,7 +24,34 @@ object AI {
      * <p/>
      * Note: If s has a winner (four in a row), it should be a leaf.
      */
-  def createGameTree(s: State, d: Int) {
+  def createGameTree(s: State, d: Int) 
+  {      
+    s.initializeChildren()
+    for (i <- 0 to d)
+    {
+      for (j <- 0 to s.children.length-1)
+       {
+        createGameTree(s.children(j), d-1)
+      }
+    }
+    
+    
+//    if(d==0) s
+//    s.initializeChildren()
+//    createGameTree(s.children, d-1)
+
+//    
+//    
+//    creategameTree(s.childre)
+//    s.initializeChildren()
+//    //for each state - initialise the children of that state
+//    for(i <- 0 to 3) //d -1)
+//    {
+//      for(j <- i to s.children.length)
+//      createGameTree(s.children(j), d-1)  
+//    }
+    
+    
   }
 
   

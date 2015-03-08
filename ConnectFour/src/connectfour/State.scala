@@ -15,8 +15,7 @@ object State {
   val length0 = Array[State]()
 }
 
-class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @BeanProperty var lastMove: Move)
-  extends Comparable[Any] {
+class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @BeanProperty var lastMove: Move) extends Comparable[Any] {
 
   /**
      * A State array of length 0.
@@ -29,16 +28,26 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
 
     /**
      * Retrieves the possible moves and initializes this State's children.
-     * The result is that this State's children reflect the possible
-     * States that can exist after the next move. Remember, in the
-     * children it is the opposite player's turn. This method
-     * initializes only this State's children; it does not recursively
-     * initialize all descendants.
+     * The result is that this State's children reflect the possible States that can exist after the next move.
+     * Remember, in the children it is the opposite player's turn. This method
+     * initializes only this State's children; it does not recursively initialize all descendants.
      */
   def initializeChildren() {
     
     val arrayOfMoves = board.getPossibleMoves(player) //Array[Move]
+    //opposite players move - this is to be called (believed) by createGameTree
+    println("********************* " + arrayOfMoves.length)
+    //children = next possible moves after our move
+    val states = scala.collection.mutable.ArrayBuffer.empty[State]
     
+    for (i <- 0 to arrayOfMoves.length -1)
+    {
+      //last moves - is this the move from the parent????
+      
+      var boardCopy: Board = new Board(board, arrayOfMoves(i))
+      states += new State(player.opponent, boardCopy, lastMove)
+    }
+    children = states.toArray
   }
 
    /**

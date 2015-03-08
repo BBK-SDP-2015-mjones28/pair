@@ -110,8 +110,7 @@ class Board {
      * array of length 0.
      */
  def getPossibleMoves(p: Player): Array[Move] = {
-    val tempMoves: List[Move] = List()
-    //val possibleMoves: Array[Move] = new Array[Move](Board.NUM_COLS)
+    //var possibleMoves: Array[Move] = new Array[Move](Board.NUM_COLS)
     val possibleMoves = scala.collection.mutable.ArrayBuffer.empty[Move]
      
     var num: Int = 0
