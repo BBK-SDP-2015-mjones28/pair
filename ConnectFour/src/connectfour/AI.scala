@@ -73,16 +73,48 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     /**
      * See Solver.getMoves for the specification.
      */
-  override def getMoves(b: Board): Array[Move] = ???
-
-  
-  
+  override def getMoves(b: Board): Array[Move] =
+  {
+    
+    val moves = b.getPossibleMoves(player)
+    
+    for (i <- 0 to moves.length-1) {
+      
+      var s = new State(player, b, moves(i))
+      AI.createGameTree(s,depth)
+      println(minimax(s))
+    }
+    
+    //need to add moves to array and then sort the array in order 
+    
+    // Now visit each of the nodes recursively, looking for the
+     null //return array
+    
+    }
+    
+    
+  }
     /**
      * State s is a node of a game tree (i.e. the current State of the game).
      * Use the Minimax algorithm to assign a numerical value to each State of the
-     * tree rooted at s, indicating how desirable that java.State is to this player.
+     * tree rooted at s, indicating how desirable that State is to this player.
      */
   def minimax(s: State) {
+
+   
+    
+    s.value = evaluateBoard(s.getBoard())
+    
+    println("In MINMAX - at depth: " + depth + " value: " + s.getValue())
+           
+    for (i <- 0 to depth)
+    {
+      for (j <- 0 to s.children.length-1)
+       {
+        minimax(s.children(j))
+       }
+    }
+    
   }
 
   

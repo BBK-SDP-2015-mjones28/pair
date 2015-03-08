@@ -56,16 +56,31 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
      * be viewed in a file even when it is too large to print to console.
      * Beep when printing is done.
      */
-  def writeToFile() {
+//  def writeToFile() {
+//    try {
+//      var writer = new PrintWriter("output.txt", "UTF-8")
+//      writer.println(this)
+//      java.awt.Toolkit.getDefaultToolkit.beep()
+//    } catch {
+//      case e @ (_: FileNotFoundException | _: UnsupportedEncodingException) => e.printStackTrace()
+//    }
+//  }
+
+  
+   def writeToFile() {
+    var writer: PrintWriter = new PrintWriter("output.txt", "UTF-8")
     try {
-      var writer = new PrintWriter("output.txt", "UTF-8")
+     // writer = new PrintWriter("output.txt", "UTF-8")
       writer.println(this)
-      java.awt.Toolkit.getDefaultToolkit.beep()
     } catch {
-      case e @ (_: FileNotFoundException | _: UnsupportedEncodingException) => e.printStackTrace()
+      case e@(_: FileNotFoundException | _: UnsupportedEncodingException) => e.printStackTrace()
+    } finally {
+      writer.close();
     }
   }
-
+  
+  
+  
   /**
      * Return a representation of this State.
      */

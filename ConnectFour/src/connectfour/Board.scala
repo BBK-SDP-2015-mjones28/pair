@@ -89,7 +89,7 @@ class Board {
     {      
       if (getTile(l, move.column) == null)
       {
-        println("***DEBUG***: " + l)      
+        //println("***DEBUG***: " + l)      
         if (l > num) num = l else l
         println(num)
        
@@ -123,7 +123,7 @@ class Board {
       }
       else
       {
-        println("***DEBUG*** Column: " + col + " is full")
+        //println("***DEBUG*** Column: " + col + " is full")
       }      
     }
     //somehow make a new array that returns the correct amount of moves - not the full length 7 - possibly
@@ -170,6 +170,7 @@ class Board {
     }
     locations.toList
   }
+  
 
   def possibleWin(r: Int, c: Int, delta: Array[Int]): Array[Player] = {
     val location = Array.ofDim[Player](FOUR)
