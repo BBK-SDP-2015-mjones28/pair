@@ -76,6 +76,31 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   override def getMoves(b: Board): Array[Move] =
   {
     
+    //martin odersky Corsera Video
+    //  def mergeSort(xs: List[Int]): List[Int] = {
+//    val n = xs.length / 2
+//    if(n == 0) xs
+//    else
+//    {
+//      def merge(xs:List[Int], ys: List[Int]):List[Int] =      
+//        (xs,ys) match
+//        {
+//           case (Nil, ys) => ys
+//           case(xs, Nil) => xs
+//           //head and tail, head and tail
+//           case(x::xs1, y::ys1) => if(x < y) x::merge(xs1,ys) 
+//                                   else y::merge(xs,ys1)//                   
+//        }
+//      val(fst, snd) = xs splitAt n
+//      merge(mergeSort(fst), mergeSort(snd))
+//    }
+//  }
+  
+//    var arr= Array[Int](1,2,5,8,4,3,10,20,9,11,22,15,7,6,0)
+//    var list = arr.toList
+//    list = mergeSort(list)
+//    arr = list.toArray
+    
     val moves = b.getPossibleMoves(player)
     
     for (i <- 0 to moves.length-1) {
