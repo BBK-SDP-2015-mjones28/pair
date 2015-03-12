@@ -1,6 +1,6 @@
 package connectfour
 
-import java.util.List
+
 import AI._
 //remove if not needed
 import scala.collection.JavaConversions._
@@ -77,60 +77,119 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   {
     
     //martin odersky Corsera Video
-    //  def mergeSort(xs: List[Int]): List[Int] = {
-//    val n = xs.length / 2
-//    if(n == 0) xs
-//    else
-//    {
-//      def merge(xs:List[Int], ys: List[Int]):List[Int] =      
-//        (xs,ys) match
-//        {
-//           case (Nil, ys) => ys
-//           case(xs, Nil) => xs
-//           //head and tail, head and tail
-//           case(x::xs1, y::ys1) => if(x < y) x::merge(xs1,ys) 
-//                                   else y::merge(xs,ys1)//                   
-//        }
-//      val(fst, snd) = xs splitAt n
-//      merge(mergeSort(fst), mergeSort(snd))
-//    }
-//  }
-  
-//    var arr= Array[Int](1,2,5,8,4,3,10,20,9,11,22,15,7,6,0)
-//    var list = arr.toList
-//    list = mergeSort(list)
-//    arr = list.toArray
+    def mergeSort[T](xs: List[T])(f: (T, T) => Boolean): List[T] =
+    {
+    val n = xs.length / 2
+    if(n == 0) xs
+    else
+    {
+      def merge(xs:List[T], ys: List[T]):List[T] =      
+        (xs,ys) match
+        {
+           case (Nil, ys) => ys
+           case(xs, Nil) => xs
+           //head and tail, head and tail
+           case(x::xs1, y::ys1) => if(f(x,y)) x::merge(xs1,ys) 
+                                   else y::merge(xs,ys1)                  
+        }
+      val(fst, snd) = xs splitAt n
+      merge(mergeSort(fst)(f), mergeSort(snd)(f))
+    }
+  }    
     
     val moves = b.getPossibleMoves(player)
+    // var arrState = Array[State]()
+    var arrState = scala.collection.mutable.ArrayBuffer.empty[State]
+
+    var arr = Array[Move]()
+   
     
-    for (i <- 0 to moves.length-1) {
-      
+    for (i <- 0 to moves.length-1)
+    {
+      //get the max move of this states children
       var s = new State(player, b, moves(i))
-      AI.createGameTree(s,depth)
+    //  AI.createGameTree(s,depth)
+        AI.createGameTree(s,depth)
+
       println(minimax(s))
+      //s now hold the best of its children
+      
+     
+      //at this point s should have a value and all its children should have value
+      
+      //need to look at this
+          val tempArrayState = scala.collection.mutable.ArrayBuffer.empty[State]
+
+         // var tempArrayState = Array[State]()
+          for (j <- 0 to s.getChildren().length -1)
+          {
+           // if(s.getValue().equals(s.children(j).getValue()))
+             // {
+             //tempArrayState(j) = s.children(j)
+              tempArrayState+= s.children(j)
+              //possibly get last state here
+             // }
+          }
+          var list = tempArrayState.toList
+          
+          
+          for (i <- 0 to tempArrayState.length - 1)
+          {
+            println ("****DEBUG**** - array state values: " +  tempArrayState(i).getValue())
+          }
+          
+          //list is passing list to the function and also the function we wish to use
+          list = mergeSort(list)((x: State, y: State) => x.value < y.value)
+          println("****DEBUG**** AI list Sort: " + list)
+          
+          //after sort pick lowest and add that lowest to the array of states
+          var holdingArray: Array[State] = Array[State]() 
+          holdingArray = list.toArray
+//          println("****DEBUG**** AI list toArray " + holdingArray)
+          
+          //here take the first one
+          if(holdingArray.length != 0)
+          arrState += holdingArray(0)
+          else
+            println("error here!! no array found")
+                  
+    }    
+
+    //have to make a move to get into state
+    //here we need to make those moves
+    var moveArray = scala.collection.mutable.ArrayBuffer.empty[Move]
+
+    //var moveArray: Array[Move] = Array[Move]() 
+    
+    for (i <- 0 to arrState.length -1 )
+    {
+      moveArray += arrState(i).getLastMove()
     }
     
+     
     //need to add moves to array and then sort the array in order 
     
     // Now visit each of the nodes recursively, looking for the
-     null //return array
+    var returnArray: Array[Move] = moveArray.toArray
     
+    returnArray
+        
     }
     
-    
-  }
+  
     /**
      * State s is a node of a game tree (i.e. the current State of the game).
      * Use the Minimax algorithm to assign a numerical value to each State of the
      * tree rooted at s, indicating how desirable that State is to this player.
      */
-  def minimax(s: State) {
-
-   
+  def minimax(s: State) {   
+    
+    //if player = max value
+    //if AI/opponent = min value
     
     s.value = evaluateBoard(s.getBoard())
     
-    println("In MINMAX - at depth: " + depth + " value: " + s.getValue())
+//    println("In MINMAX - at depth: " + depth + " value: " + s.getValue())
            
     for (i <- 0 to depth)
     {
