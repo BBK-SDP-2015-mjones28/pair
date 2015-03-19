@@ -2,7 +2,7 @@ package connectfour
 
 object GameTreeTest extends App{
 
-  val p1 = new AI(RED,1)
+  val p1 = new AI(RED,2)
   val p2 = new Human(YELLOW)
   
   //First placement

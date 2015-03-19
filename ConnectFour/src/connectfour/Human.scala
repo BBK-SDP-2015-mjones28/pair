@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore
 
 class Human(private var player: Player) extends Solver {
 
-  private var waitSema: Semaphore = new Semaphore(0)
+  private val waitSema: Semaphore = new Semaphore(0)
 
   private var nextColumn: Int = _
 
@@ -14,7 +14,6 @@ class Human(private var player: Player) extends Solver {
     } catch {
       case e: InterruptedException => e.printStackTrace()
     }
-    //make a new move that will get checked within move class
     Array(new Move(player, nextColumn))
   }
 

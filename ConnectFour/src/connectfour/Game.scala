@@ -1,25 +1,17 @@
 package connectfour
 
-object Game extends App {
-
-  private val SLEEP_INTERVAL = 10
-
-  val p1 = new Dummy(RED)
-  val p2 = new Dummy(YELLOW)
-  val game = new Game(p1, p2)
-  game.runGame()
-}
-
 class Game(private var activePlayer: Solver, private var player2: Solver) {
 
-  private var board: Board = new Board()
+  private var board: Board = Board()
 
   private var gui: GUI = _
 
-  private var winner: Player = _
+  private var winner: Option[Player] = _
 
-  def this(p1: Solver, p2: Solver, b: Board, p: Boolean) 
-  {
+  def this(p1: Solver,
+           p2: Solver,
+           b: Board,
+           p: Boolean) {
     this(p1, p2)
     board = b
     activePlayer = (if (p) p1 else p2)
@@ -40,52 +32,24 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
       var moveIsSafe = false
       var nextMove: Move = null
       while (!moveIsSafe) {
-        //board - array of players
-        //bestMoves = 
         val bestMoves = activePlayer.getMoves(board)
-        if (bestMoves.length == 0) 
-        {
+        if (bestMoves.length == 0) {
           gui.setMsg("Game cannot continue until a Move is produced.")
           //continue
-        } 
-        else 
-        {
+        } else {
           nextMove = bestMoves(0)
         }
-        //if tile is empty
-        if (board.getTile(0, nextMove.column) == null)
-        {
+        if (board.getTile(0, nextMove.column) == null) {
           moveIsSafe = true
-        } else 
-        {
+        } else {
           gui.setMsg("Illegal Move: Cannot place disc in full column. Try again.")
         }
       }
-      
-      //move is now capable
-      //nextMove = player's possible moves
-      println(board.getPossibleMoves(nextMove.player))
-      
-      val returnedMoves: Array[Move] = board.getPossibleMoves(nextMove.player)
-      println("***DEBUG*** returned all moves")
-      for(m <- 0 to returnedMoves.length - 1)
-      {
-        //issues with this as at present we return an array of 7 - whereas we need to 
-        //return an array of exact amount
-        println(returnedMoves(m).player + " " + returnedMoves(m).column)  
-      }
-      
       board.makeMove(nextMove)
-
-      
-      // Insert getPossibleMoves tests here
-  
-      
       if (gui == null) {
         println(nextMove)
         println(board)
-      } else 
-      {
+      } else {
         gui.updateGUI(board, nextMove)
       }
       val temp = activePlayer
@@ -98,19 +62,20 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
       }
     }
     if (gui == null) {
-      if (winner == null) {
-        println("Tie game!")
-      } else {
+      if (winner.isDefined) {
         println(winner + " won the game!!!")
+      } else {
+        println("Tie game!")
       }
     } else {
-      gui.notifyGameOver(winner)
+      gui.notifyGameOver(winner.get)
     }
   }
 
   def isGameOver(): Boolean = {
     winner = board.hasConnectFour()
-    if (winner != null) return true
+
+    if (winner.isDefined) return true
     var r = 0
     while (r < Board.NUM_ROWS) {
       var c = 0
@@ -122,5 +87,22 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
     }
     true
   }
+}
+
+object Game extends App {
+
+//  val p1 = Dummy(RED)
+//  val p2 = Dummy(YELLOW)
+  val p1 = new AI(RED, 5);
+  val p2 = new AI(YELLOW, 6);
+  val game = Game(p1, p2)
+  private val SLEEP_INTERVAL = 10
+  game.runGame()
+  
+  //assume testing goes here
+  
+
+  def apply(p1: Solver, p2: Solver) =
+    new Game(p1, p2)
 }
 

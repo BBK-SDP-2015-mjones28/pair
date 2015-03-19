@@ -8,20 +8,43 @@ object GameGUI extends App {
          * a player parameter; the AI constructor has a player and depth
          * as parameters, with the a depth used to recurse when searching the
          * game space. */
-  //Solver p1= new AI(Player.RED, 6);
-  //Solver p2= new Human(Player.YELLOW);
-// 
-//  val p1 = new Dummy(RED);
-//  val p2 = new Dummy(YELLOW);
-  
-  val p1 = new Human(RED)
-  val p2 = new Human(YELLOW)
-  
-  //Solver p1 = new Human(Player.RED);
-  //Solver p2 = new Dummy(Player.YELLOW);
 
+  val p1 = new Human(RED);
+  //val p1 = new AI(RED, 5);
+  val p2 = new AI(YELLOW, 5);
+
+  /* val b = new Board()
+  
+  val move = new Move(RED, 1)
+  b.makeMove(move)
+  val move2 = new Move(YELLOW, 1)
+  b.makeMove(move2)
+  val move3 = new Move(RED, 1)
+  b.makeMove(move3)
+  val move4 = new Move(YELLOW, 1)
+  b.makeMove(move4)
+  val move5 = new Move(RED, 2)
+  b.makeMove(move5)
+  val move6 = new Move(YELLOW, 2)
+  b.makeMove(move6)
+  val move7 = new Move(RED, 3)
+  b.makeMove(move7)
+  val move8 = new Move(RED, 3)
+  b.makeMove(move8)
+  
+  
+  val currentState = new State(YELLOW, b, move8)
+  currentState.initializeChildren()
+  
+  AI.createGameTree(currentState, 3) // create tree to depth 3
+  
+  // Now test Minimax
+  AI.minimax(p1, currentState)
+  currentState.writeToFile() // SUCCESS!
+  */
   /* --------------------------------- Do not change below here. --------------------------------- */
 
+  
   val game = new Game(p1, p2);
   game.setGUI(new GUI(game, Board.NUM_COLS, Board.NUM_ROWS));
   game.runGame();
