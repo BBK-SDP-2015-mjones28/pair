@@ -14,6 +14,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
    // currentState.writeToFile() // check results in output.txt
     
     val tempChildren = currentState.getChildren
+    
+    //sort states by value - believe max is first
     tempChildren.sortBy(x => x.value)
     
     tempChildren.filter(child => child.getValue == currentState.getValue)
@@ -27,83 +29,30 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
    * Use the Minimax algorithm to assign a numerical value to each State of the
    * tree rooted at s, indicating how desirable that java.State is to this player.
    */
-  // referenced Minimax pseudocode on Wikipedia
-  // very repetitive - can we use pattern matching to simplify?
- 
-//  def minimax(s: State): Unit = {
-//    
-//    getMaxOrMin(s, true)
-//    
-//    def getMaxOrMin(s: State, flag: Boolean): Int = {
-//      val max = flag;
-//      
-//      // if a leaf node, give the node a score
-//      if (s.getChildren().isEmpty) {
-//        s.setValue(evaluateBoard(s.getBoard))
-//        s.getValue        
-//      } 
-//      else if (max) {
-//        var bestValue = Int.MinValue
-//        var tempChildren = s.getChildren() 
-//        tempChildren.foreach(child => {
-//          val childBestValue = getMaxOrMin(child, false)
-//          if (childBestValue > bestValue)
-//            bestValue = childBestValue 
-//        })
-//        s.setValue(bestValue)
-//        bestValue
-//      } else {
-//
-//        var bestValue = Int.MaxValue
-//        var tempChildren = s.getChildren()
-//        tempChildren.foreach(child => {
-//          val childBestValue = getMaxOrMin(child, true)
-//          if (childBestValue < bestValue)
-//            bestValue = childBestValue
-//          })
-//          s.setValue(bestValue)
-//          bestValue
-//      }
-//    }
-//  }
-  
- 
-  
   def minimax(s: State) : Unit = 
   {
-    println("Calling minimax")    
      getMaxOrMin(s,true) 
       def getMaxOrMin(s: State, flag: Boolean): Int = 
-      {
-        
-      println("Calling getMaxOrMin")
-     
-     
+      {    
        if(s.getChildren().isEmpty)
        {
-         println("EMPTY")
          s.setValue(evaluateBoard(s.getBoard))
          s.getValue
        } 
        else {
-         print("Not EMPTY: ")
          flag match {
-                     case true => {     println("true"); 
-
+                     case true => {     
                                    val bestMoves = scala.collection.mutable.ArrayBuffer.empty[Int]
                                    s.getChildren.map{child => bestMoves+= getMaxOrMin(child, false)}
                                    s.setValue(bestMoves.max)
-                                    // println("Best True :" + bestMoves.max)
                                    bestMoves.max
 
                                    }
-                     case false => {    println("false");
-
+                     case false => {
                                     val bestMoves = scala.collection.mutable.ArrayBuffer.empty[Int]
                                     s.getChildren.map{child => bestMoves+= getMaxOrMin(child, true)}
                                     s.setValue(bestMoves.min)
-                                   //  println("Best false :" + bestMoves.min)
-                                   bestMoves.min
+                                    bestMoves.min
                                    }
                      }
              }

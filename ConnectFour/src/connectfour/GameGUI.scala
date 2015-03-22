@@ -11,7 +11,7 @@ object GameGUI extends App {
 
   val p1 = new Human(RED);
   //val p1 = new AI(RED, 5);
-  val p2 = new AI(YELLOW, 5);
+  val p2 = new AI(YELLOW, 6);
 
   /* val b = new Board()
   
