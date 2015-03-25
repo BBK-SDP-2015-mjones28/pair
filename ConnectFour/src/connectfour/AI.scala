@@ -3,19 +3,20 @@ package connectfour
 
 class AI(private var player: Player, private var depth: Int) extends Solver {
 
-  // Remember that the AI is player, who wants max value
+
   override def getMoves(b: Board): Array[Move] = {
     
     val bestMoves = scala.collection.mutable.ArrayBuffer.empty[Move]
     val currentState = new State(player, b, null)
     AI.createGameTree(currentState, depth)
-    this.minimax(currentState) // use object or class?
+    this.minimax(currentState) 
     
    // currentState.writeToFile() // check results in output.txt
     
+    
     val tempChildren = currentState.getChildren
     
-    //sort states by value - believe max is first
+    //sort states by value 
     tempChildren.sortBy(x => x.value)
     
     tempChildren.filter(child => child.getValue == currentState.getValue)

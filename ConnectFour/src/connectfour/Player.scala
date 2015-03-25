@@ -1,7 +1,5 @@
 package connectfour
 
-//  implicit def convertValue(v: Value): Player = v.asInstanceOf[Player]
-
 sealed trait Player {
   def opponent: Player
 }

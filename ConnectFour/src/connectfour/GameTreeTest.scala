@@ -1,11 +1,15 @@
 package connectfour
 
+/**
+ * Testing object - testing methods created using Asserts
+ */
 object GameTreeTest extends App{
 
   val p1 = new AI(RED,2)
   val p2 = new Human(YELLOW)
   
-  //First placement
+//testing board - make move and move
+
   val a = new Board()
   val move = new Move(RED,1)
   a.makeMove(move)
@@ -37,25 +41,19 @@ object GameTreeTest extends App{
   a.makeMove(move6)
   println("Best move " + p1.evaluateBoard(a))
   
-  
+ //Testing writing to file
   val currentState = new State(RED, a, move6)
-      
- // AI.createGameTree(currentState, 1)
-  
-  println("Best move " + p1.evaluateBoard(a))  
-  println("MinMax" + p1.minimax(currentState))  
-  
-  //Testing writing to file
   currentState.writeToFile()
   assert("output.txt" != null)
   
+  //Test - board - getpossibleMoves
   val moves: Array[Move] = a.getPossibleMoves(RED)
 //  assert(moves.length == 6)  //fails as expected
   
   val moves1: Array[Move] = a.getPossibleMoves(YELLOW)
   assert(moves1.length == 7)  //Passes as expected
   
-  //fill column 2
+  //fill column 2 - test whether column is now full or not
   val move7 = new Move(YELLOW,2)
   a.makeMove(move7)  
   
@@ -70,7 +68,7 @@ object GameTreeTest extends App{
   assert(moves3.length == 6)  //Passes as expected
   
   
-  //Initialise Children Test and Create Game Tree
+ //Initialise Children Test and Create Game Tree
   val newState = new State(RED, a, null)
   AI.createGameTree(newState, 2)
 //  assert(newState.getChildren().isEmpty) //Fails as expected
@@ -79,20 +77,10 @@ object GameTreeTest extends App{
   AI.createGameTree(newState1, 2)
   assert(!newState1.getChildren().isEmpty)  //Passes as expected
   
-  
-  
-  
-  /*
-   * make tests on the methods we made
-   * 
-   * board example - empty board - make move is it ok, is it the correct colour and its not full 
-   * 
-   * check all and any behaviour 
-   * 
-   * asserts
-   * /
-   */
-  
+//test Min max and BestMove Visually
+  AI.createGameTree(currentState, 1)  
+  println("Best move " + p1.evaluateBoard(a))  
+  println("MinMax" + p1.minimax(currentState)) 
   
   
 }

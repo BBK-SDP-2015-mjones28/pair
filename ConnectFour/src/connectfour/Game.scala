@@ -91,16 +91,12 @@ class Game(private var activePlayer: Solver, private var player2: Solver) {
 
 object Game extends App {
 
-//  val p1 = Dummy(RED)
-//  val p2 = Dummy(YELLOW)
   val p1 = new AI(RED, 5);
   val p2 = new AI(YELLOW, 6);
   val game = Game(p1, p2)
   private val SLEEP_INTERVAL = 10
   game.runGame()
-  
-  //assume testing goes here
-  
+
 
   def apply(p1: Solver, p2: Solver) =
     new Game(p1, p2)
